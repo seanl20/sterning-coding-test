@@ -6,6 +6,10 @@
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
+require("jquery")
+require("vue");
+require("datatables.net-bs4");
+require("bootstrap");
 require("channels")
 
 
