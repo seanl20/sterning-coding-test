@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :user_locations
   resources :user_affiliations
   resources :locations
   resources :affiliations
