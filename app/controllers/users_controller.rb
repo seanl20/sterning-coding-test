@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  require 'csv'
 
   # GET /users
   # GET /users.json
@@ -63,6 +64,62 @@ class UsersController < ApplicationController
 
   def import
 
+  end
+
+  def csv_import
+    if params[:file]
+        CSV.foreach(params[:file], headers: true) do |data|
+            user = data.to_hash
+            if user["Affiliations"].blank?
+                next
+            else
+                split_name = user["Name"].split(" ")
+                if split_name.size > 2
+                    first_name = split_name[0].capitalize
+                    for i in 1..(split_name.size-2)
+                        first_name = first_name + " #{split_name[i].capitalize}"
+                    end
+                    last_name = split_name.last.capitalize
+                elsif split_name.size == 1
+                    first_name = split_name[0].capitalize
+                    last_name = ""
+                else
+                    first_name = split_name[0].capitalize
+                    last_name = split_name.last.capitalize
+                end
+
+                csv_user = User.create(
+                    first_name: first_name,
+                    last_name: last_name,
+                    species: user["Species"],
+                    gender: user["Gender"],
+                    weapon: user["Weapon"],
+                    vehicle: user["Vehicle"]
+                ) 
+
+                if Location.exists?(title: user["Location"])
+                    location = Location.find_by(title: user["Location"].titlecase)
+                else
+                    location = Location.create(title: user["Location"].titlecase)
+                end
+
+                if Affiliation.exists?(title: user["Affiliations"])
+                    affiliation = Affiliation.find_by(title: user["Affiliations"])
+                else
+                    affiliation = Affiliation.create(title: user["Affiliations"])
+                end
+
+                csv_user.locations << location
+                csv_user.affiliations << affiliation
+            end
+        end
+
+        redirect_to url_for(controller: :users, action: :import)
+        return
+    else
+        redirect_to url_for(controller: :users, action: :import)
+        return
+    end
   end
 
   private
