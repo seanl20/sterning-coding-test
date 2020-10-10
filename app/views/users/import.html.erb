@@ -1,0 +1,29 @@
+<%= content_for :js_area do %>
+<% end %>
+
+<div class="row" id="app">
+  <div class="col-12">
+    <h1>Import Data</h1>
+  </div>
+  <div class="col-12 mt-4">
+    <%= form_tag csv_import_users_path, multipart: true do %>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Upload</span>
+        </div>
+        <div class="custom-file">
+          <%= file_field_tag :file, class: "custom-file-input", id: "inputGroupFile01" %>
+          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+        </div>
+      </div>
+      <%= submit_tag "Import CSV", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <% if User.any? %>
+    <div class="col-12 mt-4">
+      <a href="" class="btn btn-success text-white">Vue Table</a>
+      <a href="" class="btn btn-success text-white">Datatable Table</a>
+    </div>
+  <% end %>
+</div>
