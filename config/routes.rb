@@ -7,7 +7,10 @@ Rails.application.routes.draw do
 	collection do
 		get :import
 		post :csv_import
+		get :datatable_view
 	end
   end
+
+  root 'users#import'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
