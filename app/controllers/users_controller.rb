@@ -122,6 +122,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def datatable_view
+    @users = User.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
