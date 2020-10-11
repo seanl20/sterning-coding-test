@@ -126,6 +126,20 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def vuetable_view
+    @users = User.all.map { |u|
+        {
+            "full_name": u.full_name,
+            "locations": u.locations.pluck(:title).join(", "),
+            "species": u.species,
+            "gender": u.gender,
+            "affiliations": u.affiliations.pluck(:title).join(", "),
+            "weapon": u.weapon,
+            "vehicle": u.vehicle
+        }
+    }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
