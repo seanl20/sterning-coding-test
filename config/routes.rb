@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 		get :import
 		post :csv_import
 		get :datatable_view
+		get :vuetable_view
 	end
   end
 
