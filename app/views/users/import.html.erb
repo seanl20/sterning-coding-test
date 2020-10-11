@@ -33,7 +33,7 @@
 
   <% if User.any? %>
     <div class="col-12 mt-4">
-      <a href="" class="btn btn-success text-white">Vue Table</a>
+      <%= link_to "Vue Table", vuetable_view_users_path, class: 'btn btn-success text-white' %>
       <%= link_to "Datatable Table", datatable_view_users_path, class: 'btn btn-success text-white' %>
     </div>
   <% end %>
