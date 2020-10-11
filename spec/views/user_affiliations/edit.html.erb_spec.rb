@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "user_affiliations/edit", type: :view do
   before(:each) do
     @user_affiliation = assign(:user_affiliation, UserAffiliation.create!(
-      user: nil,
-      affiliation: nil
+      user: User.create(first_name: "Test", species: "test species", gender: "test gender"),
+      affiliation: Affiliation.create(title: "Test")
     ))
   end
 

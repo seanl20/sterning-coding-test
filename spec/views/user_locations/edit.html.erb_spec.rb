@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "user_locations/edit", type: :view do
   before(:each) do
     @user_location = assign(:user_location, UserLocation.create!(
-      user: nil,
-      location: nil
+      user: User.create(first_name: "Test", species: "test species", gender: "test gender"),
+      location: Location.create(title: "Test")
     ))
   end
 
