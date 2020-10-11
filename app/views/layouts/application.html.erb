@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SterningCodingTest</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= yield :css_area %>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+        <%= yield %>
+    </div>
+    
+    <% if Rails.env.production? %>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <% else %>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <% end %>
+    <%= yield :js_area %>
+  </body>
+</html>

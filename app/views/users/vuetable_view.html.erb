@@ -1,0 +1,126 @@
+<%= content_for :css_area do %>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
+  <style>
+    #table_header th:hover{
+      cursor: pointer;
+    }
+  </style>
+<% end %>
+  
+<%= content_for :js_area do %>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+  <script>
+    var vueapp = new Vue ({
+      el: "#app",
+      data: {
+        direction: "asc",
+        user_table: <%= raw  @users.to_json%>,
+        pageSize: 10,
+				currentPage: 1,
+				currentSort: 'full_name',
+				currentSortDir:'asc',
+				search: '',
+				sortKey: 'Name',
+      },
+      mounted() {
+        console.log("TEST");
+        console.log(this.pageSize);
+      },
+      methods: {
+         sort:function(s){
+        	if (s === this.currentSort) {
+        		this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+        	}
+        	this.currentSort = s;
+        },
+        nextPage:function() {
+	  			if((this.currentPage*this.pageSize) < this.user_table.length) {
+		  			this.currentPage++;
+		  		}
+				},
+				prevPage:function() {
+			  	if(this.currentPage > 1){
+			  		this.currentPage--;
+			  	} 
+				},
+      },
+      computed: {
+      	filteredList: function(){
+      		console.log(this.user_table);
+      		var self = this;
+      		return this.user_table.sort((a, b) => {
+      			let modifier = 1;
+      			if(this.currentSortDir === 'desc'){
+      				modifier = -1;
+      			}
+            console.log(a[this.currentSort]);
+        		if(a[this.currentSort] < b[this.currentSort]){
+        			return -1 * modifier;
+        		}
+					  if(a[this.currentSort] > b[this.currentSort]){
+					    return 1 * modifier;
+					  }
+			    	return 0;
+          }).filter((row, index) => {
+		        let start = (this.currentPage-1)*this.pageSize;
+		        let end = this.currentPage*this.pageSize;
+		        if(index >= start && index < end) return true;
+	        }).filter((item)=>{
+            if(this.search != ''){
+              key_names = Object.keys(item)
+              console.log(key_names.length);
+              for(var i = 0; i < key_names.length; i++){
+                console.log(key_names[i]);
+                console.log(item[key_names[i]]);
+                if (item[key_names[i]] && this.search.toLowerCase().split(' ').every(v => item[key_names[i]].toLowerCase().includes(v))){
+                  return this.search.toLowerCase().split(' ').every(v => item[key_names[i]].toLowerCase().includes(v))
+                }
+              }
+            }else{
+              return true
+            }
+          });
+        }
+      }
+    })
+  </script>
+<% end %>
+
+<div class="row" id="app">
+  <div class="col-12">
+    <h1>View Table View</h1>
+  </div>
+  <div class="col-12">
+    <input class="form-control" placeholder="Search" v-model="search"></input>
+  </div>
+  <div class="col-12">
+    <table class="table table-hover">
+      <thead>
+        <tr id="table_header">
+          <th v-on:click="sort('full_name')">Name</th>
+          <th v-on:click="sort('locations')">Location</th>
+          <th v-on:click="sort('species')">Species</th>
+          <th v-on:click="sort('gender')">Gender</th>
+          <th v-on:click="sort('affiliations')">Affiliations</th>
+          <th v-on:click="sort('weapon')">Weapon</th>
+          <th v-on:click="sort('vehicle')">Vehicle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in filteredList">
+          <td>{{ user.full_name }}</td>
+          <td>{{ user.locations }}</td>
+          <td>{{ user.species }}</td>
+          <td>{{ user.gender }}</td>
+          <td>{{ user.affiliations }}</td>
+          <td>{{ user.weapon }}</td>
+          <td>{{ user.vehicle }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-success" v-on:click="prevPage" >Previous</button>
+    <button class="btn btn-primary" v-on:click="nextPage" >Next</button>
+  </div>
+</div>

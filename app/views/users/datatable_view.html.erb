@@ -1,0 +1,48 @@
+<%= content_for :css_area do %>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
+<% end %>
+  
+<%= content_for :js_area do %>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.js"></script>
+  <script>
+    $(document).ready( function () {
+      $('#datatable').DataTable({
+        "bLengthChange" : false,
+      });
+    });
+  </script>
+<% end %>
+
+<div class="row" id="app">
+  <div class="col-12">
+    <h1>Datatable Table View</h1>
+  </div>
+  <div class="col-12">
+    <table id="datatable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Species</th>
+          <th>Gender</th>
+          <th>Affiliations</th>
+          <th>Weapon</th>
+          <th>Vehicle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.full_name %></td>
+            <td><%= user.locations.pluck(:title).join(", ") %></td>
+            <td><%= user.species %></td>
+            <td><%= user.gender %></td>
+            <td><%= user.affiliations.pluck(:title).join(", ") %></td>
+            <td><%= user.weapon %></td>
+            <td><%= user.vehicle %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
