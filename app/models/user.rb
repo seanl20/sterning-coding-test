@@ -7,4 +7,8 @@ class User < ApplicationRecord
   validates :first_name, presence:true
   validates :gender, presence: true
   validates :species, presence: true
+
+  def full_name
+	return "#{self.first_name} #{self.last_name}"
+  end
 end
