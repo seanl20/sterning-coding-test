@@ -10,6 +10,9 @@ affiliations, user_affiliation and user_locations index page and cross reference
 
 As for the Rspec suite, it was made so that the errors were fixed.
 
+UPDATE:
+	Made changes to retrieve database user, pass and host using local_env.yml file so please ensure that the file was created and added to the config folder.
+
 * Ruby version
 ruby version: 2.6.6
 
