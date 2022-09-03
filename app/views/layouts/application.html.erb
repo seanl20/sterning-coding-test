@@ -13,13 +13,13 @@
 
   <body>
     <div class="container-fluid">
-        <%= yield %>
+      <%= yield %>
     </div>
-    
+
     <% if Rails.env.production? %>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <% else %>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <% end %>
     <%= yield :js_area %>
   </body>

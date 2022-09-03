@@ -9,9 +9,6 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASS'] %>
-  host: <%= ENV['DATABASE_HOST'] %>
 
 development:
   <<: *default
@@ -22,8 +19,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: sterning_coding_test_test
+  database: sterning_coding_test_testing
 
 production:
   <<: *default
-  database: sterning_coding_test_production
+  database: db/production.sqlite3
